@@ -41,6 +41,7 @@
 #include "contiki.h"
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
+#include "dev/leds.h"
 
 #include <string.h>
 #include <stdio.h> /* For printf() */
@@ -138,6 +139,7 @@ PROCESS_THREAD(slave_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     cmd.data = random_rand() % 3;
+    leds_set(1 << (4 + cmd.data));
 
     LOG_INFO("Broadcasting LED %u \n", cmd.data);
     NETSTACK_NETWORK.output(NULL);
